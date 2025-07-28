@@ -1,1 +1,34 @@
 # Void_Sampling
+
+This script identifies directly void-contacting residues in a protein structure by projecting directions from the protein’s center of mass and checking for proximity interactions. It also calculates the radius of gyration (Rg) of these contact atoms across frames in a molecular dynamics (MD) trajectory.
+
+Proteins in molecular assemblies often feature internal cavities or solvent accessible voids devoid of amino acid occupancy, whose shape and fluctuation affect stability and dynamics. This tool probes such void-facing surfaces by shooting rays from the protein’s center of mass in a uniformly distributed set of directions (via Fibonacci sphere sampling), then identifying which atoms lie within a cutoff distance of the rays’ endpoints.
+
+The environment can be made by:
+conda create -n void_contacts python=3.10 -y
+conda activate void_contacts
+pip install numpy mdanalysis tqdm matplotlib
+
+--------------------------------------------
+Radius of Gyration Percentage (percent_cover)
+--------------------------------------------
+
+The percent_cover parameter defines how far each probe ray extends from the protein’s center of mass, expressed as a fraction of the system’s average radius of gyration (Rg). This determines the maximum radial distance (max_radius) up to which void-facing surfaces are sampled. A value of 1.0 implies full radial coverage, suitable for hollow or shell-like architectures where the void spans the entire internal volume (e.g., capsid interiors). Lower values (e.g., 0.3–0.6) restrict sampling to inner cavities, as seen in more compact or partially enclosed voids. The choice of percent_cover should be tuned based on the expected spatial extent of the void region, which can be guided by prior structural inspection or trial runs. The impact of this parameter on sampling coverage is visualized in Supplementary Figure S3.
+
+--------------------------------------------
+Selected Atoms (select_atoms)
+--------------------------------------------
+
+The select_atoms variable defines which atoms are used for contact detection during void probing. In coarse-grained models, this is typically set to backbone beads (e.g., "name BB"), while in atomistic simulations, it should be adjusted to match the desired resolution, such as heavy atoms or specific functional groups (e.g., CA or C,N,O). The selected atoms serve as the target points for ray intersections, and their spatial distribution critically influences which residues are classified as void-facing. Proper choice of select_atoms ensures physically meaningful detection of void contacts appropriate to the system’s granularity.
+
+--------------------------------------------
+Contact Cutoff (contact_cutoff)
+--------------------------------------------
+
+This distance threshold (in Å ) determines when a ray is considered to have “hit” an atom. It should be smaller than the expected local void radius, ensuring that only atoms very close to the ray path are marked as contacting. Rays that come within this cutoff of the selected atoms are recorded as direct contacts, meaning the first structural feature encountered in that direction. All such residues are logged in direct_contact_residues.csv, along with the frames in which they appear.This parameter can be tuned depending on sampling resolution: for example, a larger cutoff will cause rays to terminate earlier, potentially reducing the diversity of atoms sampled, especially in compact or crowded regions. In contrast, a smaller cutoff requires rays to pass closer to atoms before registering a hit, leading to more selective but potentially richer surface sampling.
+
+--------------------------------------------
+Void Radius of Gyration (Rg(void))
+--------------------------------------------
+
+For each frame, the set of atoms identified as directly contacting the void are used to compute a frame-specific radius of gyration. This Rg(void) quantifies the spatial spread of the void-facing surface and reflects how localized or dispersed the cavity-lining residues are. It is calculated using the standard Rg formula on the 3D coordinates of direct-contact atoms and recorded per frame in rg_per_frame.csv (in Å). This allows temporal tracking of void geometry fluctuations, which can be correlated with system dynamics or environmental perturbations.
