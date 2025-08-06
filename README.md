@@ -4,13 +4,13 @@ This script identifies directly void-contacting residues in a protein structure 
 
 Proteins in molecular assemblies often feature internal cavities or solvent accessible voids devoid of amino acid occupancy, whose shape and fluctuation affect stability and dynamics. This tool probes such void-facing surfaces by shooting rays from the protein’s center of mass in a uniformly distributed set of directions (via Fibonacci sphere sampling), then identifying which atoms lie within a cutoff distance of the rays’ endpoints.
 
-The environment can be made by:\
+The environment can be made by:
 
-conda create -n void_contacts python=3.10 -y\
+conda create -n void_contacts python=3.10 -y
 
-conda activate void_contacts\
+conda activate void_contacts
 
-pip install numpy mdanalysis tqdm matplotlib\
+pip install numpy mdanalysis tqdm matplotlib
 
 --------------------------------------------
 Radius of Gyration Percentage (percent_cover)
