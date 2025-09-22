@@ -1,4 +1,4 @@
-# Void_Sampling
+# Fractal-like Self-Assembly in Citrate Synthase: Delineating Growth Patterns with Coarse-Grained Simulations
 
 This script identifies directly void-contacting residues in a protein structure by projecting directions from the protein’s center of mass and checking for proximity interactions. It also calculates the radius of gyration (Rg) of these contact atoms across frames in a molecular dynamics (MD) trajectory.
 
