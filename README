@@ -1,3 +1,5 @@
+Fractal-like Self-Assembly in Citrate Synthase: Delineating Growth Patterns with Coarse-Grained Simulations
+
 This script identifies directly void-contacting residues in a protein structure by projecting directions from the protein’s center of mass and checking for proximity interactions. It also calculates the radius of gyration (Rg) of these contact atoms across frames in a molecular dynamics (MD) trajectory.
 
 Proteins in molecular assemblies often feature internal cavities or solvent accessible voids devoid of amino acid occupancy, whose shape and fluctuation affect stability and dynamics. This tool probes such void-facing surfaces by shooting rays from the protein’s center of mass in a uniformly distributed set of directions (via Fibonacci sphere sampling), then identifying which atoms lie within a cutoff distance of the rays’ endpoints.
